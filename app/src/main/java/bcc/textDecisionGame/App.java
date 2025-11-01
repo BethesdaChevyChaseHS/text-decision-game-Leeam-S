@@ -13,37 +13,90 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class App {
+
+    static int level = 1;
+    
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Swing Layout Example");
+        JFrame frame = new JFrame("Piano Practice");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
+        frame.setSize(520, 300);
 
         // Use BorderLayout
         frame.setLayout(new BorderLayout());
 
-        JLabel text = new JLabel("You are given a new project in CP3.", SwingConstants.CENTER);
+        // Use JTextArea
+        JTextArea text = new JTextArea(
+            "It's a quiet afternoon after school. You have a big piano recital in two days.\n" +
+            "Do you start practicing right away, or take a break and scroll on your phone first?"
+        );
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setEditable(false);
+        text.setFont(new Font("SansSerif", Font.PLAIN, 16));
         frame.add(text, BorderLayout.CENTER);
 
         // Create panel for buttons at bottom
         JPanel buttonPanel = new JPanel(new BorderLayout());
 
-        JButton leftButton = new JButton("Start today ");
-        JButton rightButton = new JButton("Wait till thte day its due");
-
+        JButton leftButton = new JButton("Start practicing");
+        JButton rightButton = new JButton("Take a break");
+    
         leftButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                text.setText("YOUR SCENARIO HERE");
-                leftButton.setText("YOUR NEW OPTION 1 HERE");
-                rightButton.setText("YOUR NEW OPTION 2 HERE");
+                if (level == 1) {
+
+                    text.setText("You start practicing early. The first few songs sound a little rough, but you're getting better.\n" +
+                                 "After an hour, you can either keep going or stop for the day.");
+                    leftButton.setText("Keep going");
+                    rightButton.setText("Stop for now");
+                    level = 2;
+                } else if (level == 2) {
+                    text.setText("You push through and finish your full set list! Your fingers are tired but your confidence grows.\n" +
+                                 "Tomorrow you can either rest or record yourself for feedback.");
+                    leftButton.setText("Rest");
+                    rightButton.setText("Record performance");
+                    level = 3;
+                } else if (level == 3) {
+                    text.setText("You record your performance and listen back—it actually sounds amazing!\n" +
+                                 "Final Result: You crushed your recital and earned a standing ovation");
+                    leftButton.setVisible(false);
+                    rightButton.setVisible(false);
+                }
+            }
+        });
+
+        rightButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (level == 1) {
+                    text.setText("You decide to chill for a bit and scroll through videos.\n" +
+                                 "After 30 minutes, you feel a little guilty.\n" +
+                                 "Do you practice now or keep relaxing?");
+                    leftButton.setText("Practice now");
+                    rightButton.setText("Keep relaxing");
+                    level = 2;
+                } else if (level == 2) {
+                    text.setText("You keep relaxing and end up watching piano covers on YouTube.\n" +
+                                 "Now you feel inspired—but it's getting late!\n" +
+                                 "Do you sneak in a quick practice or call it a night?");
+                    leftButton.setText("Quick practice");
+                    rightButton.setText("Go to bed");
+                    level = 3;
+                } else if (level == 3) {
+                    text.setText("You decide to practice quietly for 20 minutes before bed.\n" +
+                                 "Even that short session made a big difference!\n" +
+                                 "Final Result: You played confidently and nailed your recital. Well done!");
+                    leftButton.setVisible(false);
+                    rightButton.setVisible(false);
+                }
             }
         });
 
         buttonPanel.add(leftButton, BorderLayout.WEST);
         buttonPanel.add(rightButton, BorderLayout.EAST);
-
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         // Show frame
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-}
+} 
